@@ -1,0 +1,75 @@
+修改记录：
+
+2015/04/21
+（1）注册消息里加了一个字段 , maker ，用来标识设备厂家；
+（2）驶入驶出消息的status字段，加了一个枚举：2.时间异常，用来标识在算法也不知道车辆具体驶入驶出时间的时候，置该状态。
+
+2015/04/24
+ (1) 添加trace_log()调试函数
+ (2) 修改泊车功能的发送topic和queue信息，其中topic添加上传ftp路径中的文件名字，queue中修改上传的路径名称，与aliyun名称保持一致
+ (3) 修改文件描述符的泄露bug， trafic_**_**.c 由于open没有close，和socket没有close
+
+
+2015/04/29
+ (1)添加oss_aliyun配置参数的接口， 通过解析xml文件获取到配置信息， 然后赋值到g_arm_config全局变量中使用。功能实现并测试完成。
+
+
+
+2015/04/30
+ (1)泊车bug， 有驶入信息， 没有驶离信息。原因是跟松立对接时如果没有配置第三方MQ， 会进入死循环。泊车线程不从队列里取消息。造车程序假死。	
+ (2)修改aliyun上传目录格式， 与ftp格式保持一致。在此过程中修改bug，bug原因是因为设置的alipath数组过小，导致拷贝的时候数组越界。造成不能进入ftp和aliyun上传流程。
+
+2015/05/05
+ (1)泊车ftp和aliyun断网续传功能代码编写完成。并调试完成。在调试的过程中有如下问题：
+	FTP : ftp功能续传在之前代码已经实现， 但未完成测试， 在测试过程中发现ftp的原路径不去全， 并且缺少文件名称。代码修改， 添加完整路径。
+	aliyun ： 在aliyun断网续传调试的过程中， 根据原有的代码修改添加功能， 由于ftp断网续传用的函数接口是给出文件名，和文件路径就可上传， 但是aliyun的接口是给出图片的size和*buf， 原数据库提供的信息不完整， 所以修改的策略是在原有的数据库中添加自己所需要的字段信息。
+	添加的字段信息是图片的文件名称。 并通过打开文件的方式获得图片的内容， 在上传到aliyun。
+ (2)添加分类日志。TRACE_LOG_PACK_REUPLOAD
+
+2015/05/08
+ (1)修改泊车上传驶入，驶离信息图片相同的问题。其原因是上传的图片名字相同。
+ (2)修改vd重启bug，原因是在analyze_park_record_picture函数中未找到图片ID而造成野指针
+ (3)修改泊车的上传图片与发消息机制。把ftp上传，配置软件消息和aliyun上传，第三方mq消息分离。不耦合
+ (4)修改阿里云续传是不进行ftp续传，不给阿里云信息赋值bug
+
+
+2015/05/11
+ (1)添加机枪卡口结构体
+	typedef enum{
+ 		NETPOSA_V ,//东方网力
+ 		DaHua_V,//大华
+	}PLATFORM_VTYPE;//车辆平台协议厂家类型, 在判断东方网力的机车时改成pf_vtype；
+ (2)卡口修改boa设置vd参数机制， 首先vd程序运行的时候先给boa发送参数设置请求消息队列， 然后在接受参数设置
+ (3)卡口bitcom转换大华协议 车牌颜色定义与文档不符。
+ (4)卡口添加bitcom to dahua协议转换函数
+ 	//车牌类型转换
+ 	bitcom_to_dahua_platetype(as_traffic_record);
+ 
+ 	//车牌颜色转换
+ 	bitcom_to_dahua_platecolour(as_traffic_record);
+
+ 	//行驶方向转换
+ 	bitcom_to_dahua_direction(as_traffic_record);
+
+ 	//车辆类型转换
+ 	bitcom_to_dahua_vehicletype(as_traffic_record);
+
+ 	//车辆颜色转换
+ 	bitcom_to_dahua_vehiclecolour(as_traffic_record);
+ 
+2015/05/11 程序版本 v1.0.1 VM
+ (1)添加出入口bitcom第三方协议接口
+ 	//设备状态
+  int alleyway_sendstatus_to_bitcom(DB_TrafficRecord *db_traffic_record,EP_PicInfo *pic_info)  
+ 	//出入口数据
+	int alleyway_senddatas_to_bitcom(DB_TrafficRecord *db_traffic_record,EP_PicInfo *pic_info) 
+ 	//bitcom平台心跳
+  void *BitcomThrFxn(void * arg) 
+ （2）修改ipnc_rdk\ipnc_app\interface\inc下的Msg_Def.h 添加出入口bitcom平台结构体的定义
+  
+2015/05/11 程序版本 v1.0.1 VM *****深圳现场版本*******
+	(1) 修改出入口发送逻辑  
+  
+  
+  
+   	

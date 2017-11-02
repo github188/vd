@@ -1,0 +1,5 @@
+include_directories(./inc)
+
+aux_source_directory(./src tp_zehin_src)
+
+add_library(tp_zehin STATIC ${tp_zehin_src})

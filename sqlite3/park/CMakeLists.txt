@@ -1,0 +1,5 @@
+add_subdirectory(./zehin)
+add_subdirectory(./bitcom)
+add_subdirectory(./system)
+add_subdirectory(./songli)
+add_subdirectory(./http)

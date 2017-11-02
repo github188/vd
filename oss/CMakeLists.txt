@@ -1,0 +1,5 @@
+include_directories(./)
+include_directories(./include)
+include_directories(./include/ossc)
+aux_source_directory(. oss_src)
+add_library(oss STATIC ${oss_src})

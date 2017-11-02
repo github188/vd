@@ -1,0 +1,17 @@
+Net_DeviceID=3702020065;
+Net_MQIP1=172;
+Net_MQIP2=16;
+Net_MQIP3=5;
+Net_MQIP4=158;
+Net_MQPort=61616;
+Net_FTPIP1=172;
+Net_FTPIP2=16;
+Net_FTPIP3=5;
+Net_FTPIP4=158;
+Net_FTPPort=21;
+Net_FTPuser=sa;
+Net_FTPpasswd=sa;
+Net_FTPallow_anonymous=0;
+
+
+

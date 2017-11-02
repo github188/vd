@@ -1,0 +1,17 @@
+Mac_address=00:0a:05:0e:00:35;
+Net_IP1=172;
+Net_IP2=16;
+Net_IP3=5;
+Net_IP4=159;
+Net_Mask1=255;
+Net_Mask2=255;
+Net_Mask3=255;
+Net_Mask4=0;
+Net_GateWay1=172;
+Net_GateWay2=16;
+Net_GateWay3=5;
+Net_GateWay4=129;
+Device_serialnum=1EP10PEA0001;
+
+
+
